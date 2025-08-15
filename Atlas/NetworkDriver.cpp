@@ -1,4 +1,19 @@
+#include <algorithm>
+#include <vector>
 #include "NetworkDriver.h"
+
+FActorPriority::FActorPriority(FNetworkObjectInfo* InActorInfo, UActorChannel* InChannel)
+	: ActorInfo(InActorInfo), Channel(InChannel)
+{
+
+}
+
+FActorPriority::FActorPriority(class UNetConnection* InConnection, class UActorChannel* InChannel, FNetworkObjectInfo* InActorInfo, const TArray<struct FNetViewer>& Viewers, bool bLowBandwidth)
+	: ActorInfo(InActorInfo), Channel(InChannel)
+{
+	// Proper priority calculation will be done in a separate function
+	Priority = 1;
+}
 
 inline Globals* Global = new Globals();
 inline Func* Function = new Func();
@@ -102,6 +117,20 @@ bool NetworkDriver::IsActorRelevantToConnection(const AActor* Actor, const TArra
 	return false;
 }
 
+void NetworkDriver::CalculatePriority(FActorPriority* Priority, UNetConnection* InConnection, const TArray<FNetViewer>& Viewers, bool bLowBandwidth)
+{
+	// Simplified priority calculation
+	float TimeSinceLastReplication = Driver->Time - Priority->ActorInfo->LastNetReplicateTime;
+	float PriorityMultiplier = 1.0f;
+
+	if (TimeSinceLastReplication > 0)
+	{
+		PriorityMultiplier = UKismetMathLibrary::Sqrt(TimeSinceLastReplication);
+	}
+
+	Priority->Priority = (int32)(Priority->ActorInfo->Actor->NetPriority * PriorityMultiplier);
+}
+
 UNetConnection* NetworkDriver::IsActorOwnedByAndRelevantToConnection(AActor* Actor, const TArray<FNetViewer>& ConnectionViewers, bool& bOutHasNullViewTarget)
 {
 	bOutHasNullViewTarget = false;
@@ -187,12 +216,63 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 		}
 
 		// New actor processing logic
+		std::vector<FActorPriority*> PriorityList;
+		PriorityList.reserve(ConsiderList.Num());
+
 		for (FNetworkObjectInfo* ActorInfo : ConsiderList) {
-			if (!ActorInfo) continue;
+			if (!ActorInfo || !ActorInfo->Actor || ActorInfo->Actor->bActorIsBeingDestroyed)
+			{
+				continue;
+			}
 
 			AActor* Actor = ActorInfo->Actor;
-			if (!Actor || Actor->bActorIsBeingDestroyed) continue;
+			bool bIsRelevant = IsActorRelevantToConnection(Actor, ConnectionViewers);
+
+			if (bIsRelevant)
+			{
+				UActorChannel* Channel = FindChannelRef(Connection, Actor);
+				if (!Channel)
+				{
+					bool bOutHasNullViewTarget = false;
+					UNetConnection* OwningConnection = IsActorOwnedByAndRelevantToConnection(Actor, ConnectionViewers, bOutHasNullViewTarget);
+
+					if (OwningConnection)
+					{
+						Channel = (UActorChannel*)Function->CreateChannel(Connection, 2, true, -1);
+						if (Channel)
+						{
+							Function->SetChannelActor(Channel, Actor);
+						}
+					}
+				}
+
+				if (Channel)
+				{
+					// Add to priority list
+					FActorPriority* Priority = new FActorPriority(Connection, Channel, ActorInfo, ConnectionViewers, false);
+					CalculatePriority(Priority, Connection, ConnectionViewers, false);
+					PriorityList.push_back(Priority);
+				}
+			}
 		}
+
+		std::sort(PriorityList.begin(), PriorityList.end(), FCompareFActorPriority());
+
+		for (FActorPriority* Priority : PriorityList)
+		{
+			if (Priority && Priority->Channel)
+			{
+				Function->ReplicateActor(Priority->Channel);
+				Updated++;
+			}
+		}
+
+		// Cleanup the priority list
+		for (FActorPriority* Priority : PriorityList)
+		{
+			delete Priority;
+		}
+		PriorityList.clear();
 	}
 
 	return Updated;

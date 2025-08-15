@@ -22,14 +22,9 @@ struct FActorPriority
 	{
 	}
 
-	FActorPriority(FNetworkObjectInfo* InActorInfo, UActorChannel* InChannel) :
-		ActorInfo(InActorInfo), Channel(InChannel)
-	{
+	FActorPriority(FNetworkObjectInfo* InActorInfo, UActorChannel* InChannel);
 
-	}
-
-	//FActorPriority(class UNetConnection* InConnection, class UActorChannel* InChannel, FNetworkObjectInfo* InActorInfo, const TArray<struct FNetViewer>& Viewers, bool bLowBandwidth);
-	//FActorPriority(class UNetConnection* InConnection, struct FActorDestructionInfo* DestructInfo, const TArray<struct FNetViewer>& Viewers);
+	FActorPriority(class UNetConnection* InConnection, class UActorChannel* InChannel, FNetworkObjectInfo* InActorInfo, const TArray<struct FNetViewer>& Viewers, bool bLowBandwidth);
 };
 
 struct FCompareFActorPriority
@@ -70,6 +65,7 @@ private:
 	bool IsLevelInitializedForActor(const AActor* InActor, const UNetConnection* InConnection) const;
 	bool IsActorRelevantToConnection(const AActor* Actor, const TArray<FNetViewer>& ConnectionViewers);
 	UNetConnection* IsActorOwnedByAndRelevantToConnection(AActor* Actor, const TArray<FNetViewer>& ConnectionViewers, bool& bOutHasNullViewTarget);
+	void CalculatePriority(FActorPriority* Priority, UNetConnection* InConnection, const TArray<FNetViewer>& Viewers, bool bLowBandwidth);
 public:
 	int32 ServerReplicateActors(float DeltaSeconds);
 	int32 PrepConnections();
