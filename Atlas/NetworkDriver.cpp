@@ -201,6 +201,7 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 			}
 
 			AActor* Actor = ActorInfo->Actor;
+      
 			UActorChannel* Channel = FindChannelRef(Connection, Actor);
 
 			TArray<FNetViewer> ConnectionViewers;
