@@ -226,12 +226,6 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 			}
 
 			AActor* Actor = ActorInfo->Actor;
-
-			if (!IsLevelInitializedForActor(Actor, Connection))
-			{
-				continue;
-			}
-
 			bool bIsRelevant = IsActorRelevantToConnection(Actor, ConnectionViewers);
 
 			if (bIsRelevant)
