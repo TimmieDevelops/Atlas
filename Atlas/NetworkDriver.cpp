@@ -193,6 +193,14 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 			Function->SendClientAdjustment(Connection->PlayerController);
 		}
 
+		for (int32 ChildIdx = 0; ChildIdx < Connection->Children.Num(); ChildIdx++)
+		{
+			if (Connection->Children[ChildIdx] && Connection->Children[ChildIdx]->PlayerController)
+			{
+				Function->SendClientAdjustment(Connection->Children[ChildIdx]->PlayerController);
+			}
+		}
+
 		for (FNetworkObjectInfo* ActorInfo : ConsiderList)
 		{
 			if (!ActorInfo || !ActorInfo->Actor)
@@ -201,11 +209,17 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 			}
 
 			AActor* Actor = ActorInfo->Actor;
-      
 			UActorChannel* Channel = FindChannelRef(Connection, Actor);
 
 			TArray<FNetViewer> ConnectionViewers;
 			ConnectionViewers.Add(CreateNetViewer(Connection));
+			for (int32 ChildIdx = 0; ChildIdx < Connection->Children.Num(); ChildIdx++)
+			{
+				if (Connection->Children[ChildIdx] && Connection->Children[ChildIdx]->ViewTarget)
+				{
+					ConnectionViewers.Add(CreateNetViewer(Connection->Children[ChildIdx]));
+				}
+			}
 
 			bool bIsRelevant = Actor->bAlwaysRelevant || IsActorRelevantToConnection(Actor, ConnectionViewers);
 
