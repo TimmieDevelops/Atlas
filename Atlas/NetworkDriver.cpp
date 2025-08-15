@@ -175,7 +175,7 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 	float ServerTickTime = (Global->MaxTickRate == 0.f) ? DeltaSeconds : (1.f / Global->MaxTickRate);
 
 	TArray<FNetworkObjectInfo*> ConsiderList;
-	ConsiderList.Reserve(GetNetworkObjectList().GetActiveObjects().Num());
+	ConsiderList.ResizeTo(GetNetworkObjectList().GetActiveObjects().Num());
 	BuildConsiderList(ConsiderList, ServerTickTime);
 
 	int32 Updated = 0;
