@@ -178,7 +178,7 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 	ConsiderList.Reserve(GetNetworkObjectList().GetActiveObjects().Num());
 	BuildConsiderList(ConsiderList, ServerTickTime);
 
-	int32 TotalReplicatedActors = 0;
+	int32 Updated = 0;
 
 	for (int32 i = 0; i < Driver->ClientConnections.Num(); i++)
 	{
@@ -225,7 +225,7 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 				if (Channel)
 				{
 					// Close the channel if the actor is no longer relevant
-					Function->CloseChannel(Channel, 0);
+					Function->ActorChannelClose(Channel);
 				}
 				continue;
 			}
@@ -245,12 +245,12 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 				Function->ReplicateActor(Channel);
 				ActorInfo->LastNetReplicateTime = Driver->Time;
 				ActorInfo->NextUpdateTime = Driver->Time + ActorInfo->OptimalNetUpdateDelta;
-				TotalReplicatedActors++;
+				Updated++;
 			}
 		}
 	}
 
-	return TotalReplicatedActors;
+	return Updated;
 }
 
 int32 NetworkDriver::PrepConnections()
@@ -311,7 +311,7 @@ void NetworkDriver::BuildConsiderList(TArray<FNetworkObjectInfo*>& OutConsiderLi
 
 	for (const TSharedPtr<FNetworkObjectInfo>& ObjectInfo : GetNetworkObjectList().GetActiveObjects())
 	{
-		if (!ObjectInfo.IsValid())
+		if (!ObjectInfo.Get())
 		{
 			continue;
 		}
