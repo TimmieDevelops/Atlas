@@ -1,0 +1,5 @@
+﻿  FortGameModeAthena.cpp
+C:\Users\alani\source\repos\Atlas\Atlas\Includes\SDK\CppSDK\SDK\Basic.hpp(688,2): warning C4369: 'SDK::EObjectFlags':  enumerator value '2147483648' cannot be represented as 'int', value is '2147483648'
+  (compiling source file 'FortGameModeAthena.cpp')
+  
+  Atlas.vcxproj -> C:\Users\alani\source\repos\Atlas\x64\Debug\Atlas.dll

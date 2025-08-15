@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="SDK">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="SDK\SDK">
+      <UniqueIdentifier>{e5a2a33c-14ff-4e8c-855b-f713383aa0b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK\SDK\classes">
+      <UniqueIdentifier>{13bc7e45-797c-4d54-ba4d-42995b71c058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK\SDK\functions">
+      <UniqueIdentifier>{9615baca-d543-480e-87a8-588de1c91c29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK\SDK\structs">
+      <UniqueIdentifier>{13c45cda-7cc4-4ad5-a41e-0a5eeb753273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK\SDK\parameters">
+      <UniqueIdentifier>{84e8c2c7-3700-4581-9605-afd9c7affcc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Public">
+      <UniqueIdentifier>{d1a63e54-2fc1-4f0e-b183-68861f8a0348}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FortniteGame">
+      <UniqueIdentifier>{bf7fa203-8968-4ba1-9260-223e61b84e96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Epic Games">
+      <UniqueIdentifier>{737acc30-5c8f-4393-90d7-46c9303be064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FortniteGame\Public">
+      <UniqueIdentifier>{c34416c8-0723-471a-af3c-b43477df0d26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FortniteGame\Private">
+      <UniqueIdentifier>{cd3f5083-a0a0-412b-beed-16ddc67e8388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Epic Games\Public">
+      <UniqueIdentifier>{0d938be4-34cb-4631-b25a-b70ecea11648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Epic Games\Private">
+      <UniqueIdentifier>{2cdaec64-a3b8-490d-b460-67b4c4333593}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Private">
+      <UniqueIdentifier>{cadd637e-d7b6-46f5-8096-fd6b5f4ad8d3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\PropertyFixup.hpp">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\SDK.hpp">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\UnrealContainers.hpp">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\UtfN.hpp">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\SDK\Basic.hpp">
+      <Filter>SDK\SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\SDK\CoreUObject_classes.hpp">
+      <Filter>SDK\SDK\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\SDK\Engine_classes.hpp">
+      <Filter>SDK\SDK\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\SDK\FortniteGame_classes.hpp">
+      <Filter>SDK\SDK\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\SDK\CoreUObject_parameters.hpp">
+      <Filter>SDK\SDK\parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\SDK\FortniteGame_parameters.hpp">
+      <Filter>SDK\SDK\parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\SDK\Engine_parameters.hpp">
+      <Filter>SDK\SDK\parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\SDK\CoreUObject_structs.hpp">
+      <Filter>SDK\SDK\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\SDK\Engine_structs.hpp">
+      <Filter>SDK\SDK\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\SDK\CppSDK\SDK\FortniteGame_structs.hpp">
+      <Filter>SDK\SDK\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualHook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FortGameModeAthena.h">
+      <Filter>FortniteGame\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Misc.h">
+      <Filter>Header Files\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkObjectList.h">
+      <Filter>Epic Games\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkDriver.h">
+      <Filter>Epic Games\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="FortPlayerControllerAthena.h">
+      <Filter>FortniteGame\Public</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\SDK\CppSDK\SDK\Basic.cpp">
+      <Filter>SDK\SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\SDK\CppSDK\SDK\CoreUObject_functions.cpp">
+      <Filter>SDK\SDK\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\SDK\CppSDK\SDK\Engine_functions.cpp">
+      <Filter>SDK\SDK\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\SDK\CppSDK\SDK\FortniteGame_functions.cpp">
+      <Filter>SDK\SDK\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Header Files\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="FortGameModeAthena.cpp">
+      <Filter>FortniteGame\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Misc.cpp">
+      <Filter>Header Files\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkObjectList.cpp">
+      <Filter>Epic Games\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkDriver.cpp">
+      <Filter>Epic Games\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="FortPlayerControllerAthena.cpp">
+      <Filter>FortniteGame\Private</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Includes\SDK\GObjects-Dump.txt">
+      <Filter>SDK</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Includes\SDK\CppSDK\NameCollisions.inl">
+      <Filter>SDK</Filter>
+    </None>
+  </ItemGroup>
+</Project>

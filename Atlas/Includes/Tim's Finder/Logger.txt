@@ -1,0 +1,49 @@
+[2025-08-11 18:58:45.104] [OffsetFinder] [Credits Info]: Offset Dumper created with care by @Tim2025
+[2025-08-11 18:58:45.105] [OffsetFinder] [Info]: Grabbing Offsets...
+[2025-08-11 18:58:45.130] [OffsetFinder] [Version Info]: 4.19.0-3807424+++Fortnite+Release-Cert
+[2025-08-11 18:58:45.131] [OffsetFinder] [ImageBase]: 7FF771500000
+[2025-08-11 18:58:45.167] [OffsetFinder] [Engine Version]: 4.19
+[2025-08-11 18:58:45.168] [OffsetFinder] [Fortnite Version]: 3807424
+[2025-08-11 18:58:45.294] [OffsetFinder] [AOnlineBeaconHost::InitHost]: 0x2A72770
+[2025-08-11 18:58:45.491] [OffsetFinder] [FMemory::Free]: 0xB94C70
+[2025-08-11 18:58:45.536] [OffsetFinder] [UNetDriver::SetWorld]: 0x1AEFA50
+[2025-08-11 18:58:45.675] [OffsetFinder] [UIpNetDriver::InitListen]: 0x2A72B50
+[2025-08-11 18:58:45.683] [OffsetFinder] [AOnlineBeacon::PauseBeaconRequests]: 0x73D2C0
+[2025-08-11 18:58:45.860] [OffsetFinder] [UNetDriver::TickFlush]: 0x1AF10F0
+[2025-08-11 18:58:45.880] [OffsetFinder] [FMemory::Realloc]: 0xBA06B0
+[2025-08-11 18:58:45.892] [OffsetFinder] [NoReservation]: 0x74C0B0
+[2025-08-11 18:58:46.103] [OffsetFinder] [AActor::CallPreReplication]: 0x1761700
+[2025-08-11 18:58:46.283] [OffsetFinder] [FNetworkObjectList::Remove]: 0x1AEBB40
+[2025-08-11 18:58:46.492] [OffsetFinder] [FNetworkObjectList::AddInitialObjects]: 0x1AD23B0
+[2025-08-11 18:58:46.547] [OffsetFinder] [FNetworkObjectList::Add]: 0x1AD9570
+[2025-08-11 18:58:46.592] [OffsetFinder] [FNetworkObjectList::Reset]: 0x1AEBFE0
+[2025-08-11 18:58:46.618] [OffsetFinder] [APlayerController::SendClientAdjustment]: 0x1BE16B0
+[2025-08-11 18:58:46.664] [OffsetFinder] [APlayerController::GetPlayerViewPoint]: 0x1BD6E90
+[2025-08-11 18:58:46.688] [OffsetFinder] [AActor::IsRelevancyOwnerFor]: 0x1775740
+[2025-08-11 18:58:46.730] [OffsetFinder] [UActorChannel::Close]: 0x1953080
+[2025-08-11 18:58:46.985] [OffsetFinder] [UNetConnection::ClientHasInitializedLevelFor]: 0x1AD65D0
+[2025-08-11 18:58:47.015] [OffsetFinder] [UNetConnection::CreateChannel]: 0x2E7450
+[2025-08-11 18:58:47.193] [OffsetFinder] [UActorChannel::SetChannelActor]: 0x1970310
+[2025-08-11 18:58:47.344] [OffsetFinder] [UActorChannel::ReplicateActor]: 0x196B970
+[2025-08-11 18:58:47.545] [OffsetFinder] [AActor::IsNetRelevantFor]: 0x1775200
+[2025-08-11 18:58:47.569] [OffsetFinder] [GIsClient]: 0x5BAA38F
+[2025-08-11 18:58:47.594] [OffsetFinder] [GIsServer]: 0x5BAA390
+[2025-08-11 18:58:47.632] [OffsetFinder] [AActor::InternalGetNetMode]: 0x1774A30
+[2025-08-11 18:58:47.678] [OffsetFinder] [UWorld::InternalGetNetMode]: 0x1D60C80
+[2025-08-11 18:58:47.859] [OffsetFinder] [UEngine::GetMaxTickRate]: 0x1D13F30
+[2025-08-11 18:58:47.872] [OffsetFinder] [UObject::ProcessEvent]: 0xDE30C0
+[2025-08-11 18:58:48.081] [OffsetFinder] [UAbilitySystemComponent::InternalTryActivateAbility]: 0x2C7D040
+[2025-08-11 18:58:48.160] [OffsetFinder] [UAbilitySystemComponent::GiveAbilityAndActivateOnce]: 0x2C7BEE0
+[2025-08-11 18:58:48.273] [OffsetFinder] [UAbilitySystemComponent::GiveAbility]: 0x2C7BDC0
+[2025-08-11 18:58:48.282] [OffsetFinder] [CantBuild]: 0x61D490
+[2025-08-11 18:58:48.287] [OffsetFinder] [ReplaceBuildingActor]: 0x4BD510
+[2025-08-11 18:58:48.302] [OffsetFinder] [AFortPlayerState::ApplyCharacterCustomization]: 0x8CEF90
+[2025-08-11 18:58:48.332] [OffsetFinder] [UEngine::CreateNetDriver]: 0x1D0CB60
+[2025-08-11 18:58:48.507] [OffsetFinder] [PickupSupplyDropLocation]: 0x414420
+[2025-08-11 18:58:48.642] [OffsetFinder] [AFortGameModeAthena::AddToAlivePlayers]: 0x42A130
+[2025-08-11 18:58:48.648] [OffsetFinder] [AFortGameModeAthena::RemoveFromAlivePlayers]: 0x447020
+[2025-08-11 18:58:48.788] [OffsetFinder] [UObject::StaticLoadObject]: 0xE090A0
+[2025-08-11 18:58:48.933] [OffsetFinder] [UObject::StaticFindObject]: 0xE07E60
+[2025-08-11 18:58:49.014] [OffsetFinder] [UAbilitySystemComponent::InternalServerTryActiveAbility]: 0x2C8E4A0
+[2025-08-11 18:58:49.017] [OffsetFinder] [Info]: Successfully generated Address.h & Func.h
+[2025-08-11 18:58:49.018] [OffsetFinder] [Info]: Done! (check inside FortniteGame)
