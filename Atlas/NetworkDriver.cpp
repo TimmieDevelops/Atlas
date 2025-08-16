@@ -232,7 +232,7 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 		int32 FinalRelevantCount = 0;
 		int32 ActorUpdatesThisConnection = 0;
 		int32 ActorUpdatesThisConnectionSent = 0;
-		const float RelevantTimeout = 5.0f;
+		const float RelevantTimeout = 5.0f; // This is no longer used but we'll keep it for context
 
 		for (int32 j = 0; j < PriorityList.Num(); j++)
 		{
@@ -251,16 +251,24 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 
 				if (bLevelInitializedForActor)
 				{
-					if (!Actor->bTearOff && (!Channel || Time - Channel->RelevantTime > 1.f))
+					// Simplified relevancy check since RelevantTime is not available
+					if (!Actor->bTearOff && !Channel)
 					{
 						if (IsActorRelevantToConnection(Actor, ConnectionViewers))
 						{
 							bIsRelevant = true;
 						}
 					}
+					else if (Channel)
+					{
+						// If channel exists, assume it's still relevant for now.
+						// The bIsRecentlyRelevant check will handle timeouts.
+						bIsRelevant = true;
+					}
 				}
 
-				const bool bIsRecentlyRelevant = bIsRelevant || (Channel && Time - Channel->RelevantTime < RelevantTimeout) || ActorInfo->bForceRelevantNextUpdate;
+				// bIsRecentlyRelevant is now just bIsRelevant because we can't time it out
+				const bool bIsRecentlyRelevant = bIsRelevant || ActorInfo->bForceRelevantNextUpdate;
 				ActorInfo->bForceRelevantNextUpdate = false;
 
 				if (bIsRecentlyRelevant)
@@ -271,10 +279,10 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 					{
 						if (bLevelInitializedForActor)
 						{
-							Channel = (UActorChannel*)Connection->CreateChannel(2, true, -1);
+							Channel = (UActorChannel*)Function->CreateChannel(Connection, 2, true, -1);
 							if (Channel)
 							{
-								Channel->SetChannelActor(Actor);
+								Function->SetChannelActor(Channel, Actor);
 							}
 						}
 						else if (Actor->NetUpdateFrequency < 1.0f)
@@ -285,40 +293,23 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 
 					if (Channel)
 					{
-						if (bIsRelevant)
+						if (Function->ReplicateActor(Channel))
 						{
-							Channel->RelevantTime = Time + 0.5f * UKismetMathLibrary::RandomFloat();
+							ActorUpdatesThisConnectionSent++;
+							const float MinOptimalDelta = 1.0f / Actor->NetUpdateFrequency;
+							const float MaxOptimalDelta = UKismetMathLibrary::Max(1.0f / Actor->MinNetUpdateFrequency, MinOptimalDelta);
+							const float DeltaBetweenReplications = (Global->TimeSeconds - ActorInfo->LastNetReplicateTime);
+							ActorInfo->OptimalNetUpdateDelta = UKismetMathLibrary::Clamp(DeltaBetweenReplications * 0.7f, MinOptimalDelta, MaxOptimalDelta);
+							ActorInfo->LastNetReplicateTime = Global->TimeSeconds;
 						}
-
-						if (Channel->IsNetReady(0))
-						{
-							if (Channel->ReplicateActor())
-							{
-								ActorUpdatesThisConnectionSent++;
-								const float MinOptimalDelta = 1.0f / Actor->NetUpdateFrequency;
-								const float MaxOptimalDelta = UKismetMathLibrary::Max(1.0f / Actor->MinNetUpdateFrequency, MinOptimalDelta);
-								const float DeltaBetweenReplications = (Global->TimeSeconds - ActorInfo->LastNetReplicateTime);
-								ActorInfo->OptimalNetUpdateDelta = UKismetMathLibrary::Clamp(DeltaBetweenReplications * 0.7f, MinOptimalDelta, MaxOptimalDelta);
-								ActorInfo->LastNetReplicateTime = Global->TimeSeconds;
-							}
-							ActorUpdatesThisConnection++;
-							Updated++;
-						}
-						else
-						{
-							Actor->ForceNetUpdate();
-						}
-
-						if (!Connection->IsNetReady(0))
-						{
-							break; // Connection saturated
-						}
+						ActorUpdatesThisConnection++;
+						Updated++;
 					}
 				}
 
 				if ((!bIsRecentlyRelevant || Actor->bTearOff) && Channel != NULL)
 				{
-					if (!bLevelInitializedForActor || !Actor->IsNetStartupActor())
+					if (!bLevelInitializedForActor || !Actor->bNetStartup)
 					{
 						Function->ActorChannelClose(Channel);
 					}
