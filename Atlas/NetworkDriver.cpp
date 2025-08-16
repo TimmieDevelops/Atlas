@@ -176,7 +176,7 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 	float Time = Driver->Time;
 
 	TArray<FNetworkObjectInfo*> ConsiderList;
-	ConsiderList.Reserve(GetNetworkObjectList().GetActiveObjects().Num());
+	ConsiderList.ResizeTo(GetNetworkObjectList().GetActiveObjects().Num());
 	BuildConsiderList(ConsiderList, ServerTickTime);
 
 	int32 Updated = 0;
@@ -213,7 +213,7 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 		}
 
 		TArray<FActorPriority*> PriorityList;
-		PriorityList.Reserve(ConsiderList.Num());
+		PriorityList.ResizeTo(ConsiderList.Num());
 
 		for (FNetworkObjectInfo* ActorInfo : ConsiderList)
 		{
