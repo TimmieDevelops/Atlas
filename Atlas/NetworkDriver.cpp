@@ -173,6 +173,7 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 	}
 
 	float ServerTickTime = (Global->MaxTickRate == 0.f) ? DeltaSeconds : (1.f / Global->MaxTickRate);
+	float Time = Driver->Time;
 
 	TArray<FNetworkObjectInfo*> ConsiderList;
 	ConsiderList.ResizeTo(GetNetworkObjectList().GetActiveObjects().Num());
@@ -201,6 +202,19 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 			}
 		}
 
+		TArray<FNetViewer> ConnectionViewers;
+		ConnectionViewers.Add(CreateNetViewer(Connection));
+		for (int32 ChildIdx = 0; ChildIdx < Connection->Children.Num(); ChildIdx++)
+		{
+			if (Connection->Children[ChildIdx] && Connection->Children[ChildIdx]->ViewTarget)
+			{
+				ConnectionViewers.Add(CreateNetViewer(Connection->Children[ChildIdx]));
+			}
+		}
+
+		TArray<FActorPriority*> PriorityList;
+		PriorityList.ResizeTo(ConsiderList.Num());
+
 		for (FNetworkObjectInfo* ActorInfo : ConsiderList)
 		{
 			if (!ActorInfo || !ActorInfo->Actor)
@@ -208,61 +222,107 @@ int32 NetworkDriver::ServerReplicateActors(float DeltaSeconds)
 				continue;
 			}
 
-			AActor* Actor = ActorInfo->Actor;
-			UActorChannel* Channel = FindChannelRef(Connection, Actor);
+			FActorPriority* Priority = new FActorPriority(ActorInfo, FindChannelRef(Connection, ActorInfo->Actor));
+			CalculatePriority(Priority, Connection, ConnectionViewers, false);
+			PriorityList.Add(Priority);
+		}
 
-			TArray<FNetViewer> ConnectionViewers;
-			ConnectionViewers.Add(CreateNetViewer(Connection));
-			for (int32 ChildIdx = 0; ChildIdx < Connection->Children.Num(); ChildIdx++)
+		std::sort(PriorityList.GetData(), PriorityList.GetData() + PriorityList.Num(), FCompareFActorPriority());
+
+		int32 FinalRelevantCount = 0;
+		int32 ActorUpdatesThisConnection = 0;
+		int32 ActorUpdatesThisConnectionSent = 0;
+		const float RelevantTimeout = 5.0f; // This is no longer used but we'll keep it for context
+
+		for (int32 j = 0; j < PriorityList.Num(); j++)
+		{
+			FActorPriority* Prio = PriorityList[j];
+			if (!Prio || !Prio->ActorInfo) continue;
+
+			FNetworkObjectInfo* ActorInfo = Prio->ActorInfo;
+			UActorChannel* Channel = Prio->Channel;
+
+			if (!Channel || Channel->Actor) //make sure didn't just close this channel
 			{
-				if (Connection->Children[ChildIdx] && Connection->Children[ChildIdx]->ViewTarget)
-				{
-					ConnectionViewers.Add(CreateNetViewer(Connection->Children[ChildIdx]));
-				}
-			}
+				AActor* Actor = ActorInfo->Actor;
+				bool bIsRelevant = false;
 
-			bool bIsRelevant = Actor->bAlwaysRelevant || IsActorRelevantToConnection(Actor, ConnectionViewers);
+				const bool bLevelInitializedForActor = IsLevelInitializedForActor(Actor, Connection);
 
-			if (!bIsRelevant && Actor->Owner)
-			{
-				// Check if relevant to owner
-				if (UNetConnection* OwningConnection = IsActorOwnedByAndRelevantToConnection(Actor, ConnectionViewers, *(bool*)((uintptr_t)Connection + 0x1A80)))
+				if (bLevelInitializedForActor)
 				{
-					if (OwningConnection == Connection)
+					// Simplified relevancy check since RelevantTime is not available
+					if (!Actor->bTearOff && !Channel)
 					{
+						if (IsActorRelevantToConnection(Actor, ConnectionViewers))
+						{
+							bIsRelevant = true;
+						}
+					}
+					else if (Channel)
+					{
+						// If channel exists, assume it's still relevant for now.
+						// The bIsRecentlyRelevant check will handle timeouts.
 						bIsRelevant = true;
 					}
 				}
-			}
 
-			if (!bIsRelevant)
-			{
-				if (Channel)
+				// bIsRecentlyRelevant is now just bIsRelevant because we can't time it out
+				const bool bIsRecentlyRelevant = bIsRelevant || ActorInfo->bForceRelevantNextUpdate;
+				ActorInfo->bForceRelevantNextUpdate = false;
+
+				if (bIsRecentlyRelevant)
 				{
-					// Close the channel if the actor is no longer relevant
-					Function->ActorChannelClose(Channel);
-				}
-				continue;
-			}
+					FinalRelevantCount++;
 
-			if (!Channel)
-			{
-				// Create a channel if one doesn't exist
-				Channel = (UActorChannel*)Function->CreateChannel(Connection, 2, true, -1);
-				if (Channel)
+					if (Channel == NULL)
+					{
+						if (bLevelInitializedForActor)
+						{
+							Channel = (UActorChannel*)Function->CreateChannel(Connection, 2, true, -1);
+							if (Channel)
+							{
+								Function->SetChannelActor(Channel, Actor);
+							}
+						}
+						else if (Actor->NetUpdateFrequency < 1.0f)
+						{
+							ActorInfo->NextUpdateTime = Global->TimeSeconds + 0.2f * UKismetMathLibrary::RandomFloat();
+						}
+					}
+
+					if (Channel)
+					{
+						if (Function->ReplicateActor(Channel))
+						{
+							ActorUpdatesThisConnectionSent++;
+							const float MinOptimalDelta = 1.0f / Actor->NetUpdateFrequency;
+							const float MaxOptimalDelta = UKismetMathLibrary::Max(1.0f / Actor->MinNetUpdateFrequency, MinOptimalDelta);
+							const float DeltaBetweenReplications = (Global->TimeSeconds - ActorInfo->LastNetReplicateTime);
+							ActorInfo->OptimalNetUpdateDelta = UKismetMathLibrary::Clamp(DeltaBetweenReplications * 0.7f, MinOptimalDelta, MaxOptimalDelta);
+							ActorInfo->LastNetReplicateTime = Global->TimeSeconds;
+						}
+						ActorUpdatesThisConnection++;
+						Updated++;
+					}
+				}
+
+				if ((!bIsRecentlyRelevant || Actor->bTearOff) && Channel != NULL)
 				{
-					Function->SetChannelActor(Channel, Actor);
+					if (!bLevelInitializedForActor || !Actor->bNetStartup)
+					{
+						Function->ActorChannelClose(Channel);
+					}
 				}
-			}
-
-			if (Channel)
-			{
-				Function->ReplicateActor(Channel);
-				ActorInfo->LastNetReplicateTime = Driver->Time;
-				ActorInfo->NextUpdateTime = Driver->Time + ActorInfo->OptimalNetUpdateDelta;
-				Updated++;
 			}
 		}
+
+		// Cleanup the priority list
+		for (FActorPriority* Priority : PriorityList)
+		{
+			delete Priority;
+		}
+		PriorityList.Reset();
 	}
 
 	return Updated;
