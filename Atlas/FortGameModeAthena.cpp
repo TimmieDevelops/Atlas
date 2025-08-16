@@ -17,7 +17,7 @@ bool FortGameModeAthena::ReadyToStartMatch(AFortGameModeAthena* GameMode)
 	static bool bInitialize = false;
 	static bool bIsNetReady = false;
 
-	AFortGameStateAthena* GameState = reinterpret_cast<AFortGameStateAthena*>(GameMode->GameState);
+	AFortGameStateAthena* GameState = GameMode->GameState->Cast<AFortGameStateAthena>();
 	if (!GameMode || !GameState) return ReadyToStartMatchOG(GameMode);
 	if (!GameState->MapInfo) return ReadyToStartMatchOG(GameMode);
 
@@ -94,7 +94,7 @@ void FortGameModeAthena::HandleStartingNewPlayer(AGameModeBase* GameMode, AAthen
 	Util->LOG("FortGameModeAthena::HandleStartingNewPlayer", std::format("{} Joined!", NewPlayer->PlayerState->GetPlayerName().ToString()).c_str());
 
 	APlayerPawn_Athena_C* NewPawn = Util->SpawnActor<APlayerPawn_Athena_C>(NewPlayer->K2_GetActorLocation(), NewPlayer->K2_GetActorRotation());
-	AFortPlayerStateAthena* PlayerState = reinterpret_cast<AFortPlayerStateAthena*>(NewPlayer->PlayerState);
+	AFortPlayerStateAthena* PlayerState = NewPlayer->PlayerState->Cast<AFortPlayerStateAthena>();
 
 	NewPawn->Controller = NewPlayer;
 	NewPawn->OnRep_Controller();

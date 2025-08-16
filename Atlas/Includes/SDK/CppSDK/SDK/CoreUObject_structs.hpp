@@ -414,6 +414,10 @@ public:
 	{
 		return X == Other.X && Y == Other.Y && Z == Other.Z;
 	}
+	UnderlayingType SizeSquared() const
+	{
+		return (X * X) + (Y * Y) + (Z * Z);
+	}
 };
 
 // ScriptStruct CoreUObject.Plane

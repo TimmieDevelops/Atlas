@@ -40,6 +40,7 @@ public:
 	bool IsDefaultObject() const;
 	__int64 GetOffset();
 	__int64 GetOffset() const;
+	UObject* Cast(class UClass* InClass);
 
 	void ExecuteUbergraph(int32 EntryPoint);
 
@@ -67,6 +68,11 @@ public:
 	void ProcessEvent(class UFunction* Function, void* Parms) const
 	{
 		InSDKUtils::CallGameFunction(InSDKUtils::GetVirtualFunction<void(*)(const UObject*, class UFunction*, void*)>(this, Offsets::ProcessEventIdx), this, Function, Parms);
+	}
+
+	template<typename T>
+	T* Cast(class UClass* StaticClass = T::StaticClass()) {
+		return static_cast<T*>(this->Cast(StaticClass));
 	}
 };
 

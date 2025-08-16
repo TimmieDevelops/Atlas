@@ -137,6 +137,11 @@ __int64 UObject::GetOffset() const
 	return __int64(this);
 }
 
+UObject* UObject::Cast(UClass* InClass)
+{
+	return this->IsA(Class) ? this : nullptr;
+}
+
 
 // Function CoreUObject.Object.ExecuteUbergraph
 // (Event, Public, BlueprintEvent)

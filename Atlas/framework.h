@@ -27,3 +27,5 @@ enum class ENetMode : uint8
 
 	MAX,
 };
+
+static float Rand() { return static_cast<float>(rand()) / static_cast<float>(RAND_MAX); }

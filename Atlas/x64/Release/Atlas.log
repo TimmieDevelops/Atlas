@@ -1,0 +1,61 @@
+﻿  FortGameModeAthena.cpp
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\Includes\SDK\CppSDK\SDK\Basic.hpp(688,2): warning C4369: 'SDK::EObjectFlags':  enumerator value '2147483648' cannot be represented as 'int', value is '2147483648'
+  (compiling source file 'FortGameModeAthena.cpp')
+  
+  FortPlayerControllerAthena.cpp
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\Includes\SDK\CppSDK\SDK\Basic.hpp(688,2): warning C4369: 'SDK::EObjectFlags':  enumerator value '2147483648' cannot be represented as 'int', value is '2147483648'
+  (compiling source file 'FortPlayerControllerAthena.cpp')
+  
+  Basic.cpp
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\Includes\SDK\CppSDK\SDK\Basic.hpp(688,2): warning C4369: 'SDK::EObjectFlags':  enumerator value '2147483648' cannot be represented as 'int', value is '2147483648'
+  (compiling source file 'Includes/SDK/CppSDK/SDK/Basic.cpp')
+  
+  Engine_functions.cpp
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\Includes\SDK\CppSDK\SDK\Basic.hpp(688,2): warning C4369: 'SDK::EObjectFlags':  enumerator value '2147483648' cannot be represented as 'int', value is '2147483648'
+  (compiling source file 'Includes/SDK/CppSDK/SDK/Engine_functions.cpp')
+  
+  FortniteGame_functions.cpp
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\Includes\SDK\CppSDK\SDK\Basic.hpp(688,2): warning C4369: 'SDK::EObjectFlags':  enumerator value '2147483648' cannot be represented as 'int', value is '2147483648'
+  (compiling source file 'Includes/SDK/CppSDK/SDK/FortniteGame_functions.cpp')
+  
+  Misc.cpp
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\Includes\SDK\CppSDK\SDK\Basic.hpp(688,2): warning C4369: 'SDK::EObjectFlags':  enumerator value '2147483648' cannot be represented as 'int', value is '2147483648'
+  (compiling source file 'Misc.cpp')
+  
+  NetworkDriver.cpp
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\Includes\SDK\CppSDK\SDK\Basic.hpp(688,2): warning C4369: 'SDK::EObjectFlags':  enumerator value '2147483648' cannot be represented as 'int', value is '2147483648'
+  (compiling source file 'NetworkDriver.cpp')
+  
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(263,56): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(263,34): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(271,95): warning C4244: 'argument': conversion from 'const float' to 'UC::int32', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(271,63): warning C4244: 'argument': conversion from 'float' to 'UC::int32', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(271,57): warning C4244: 'initializing': conversion from 'UC::int32' to 'float', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(271,32): warning C4244: 'initializing': conversion from 'UC::int32' to 'const float', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(272,120): warning C4244: 'argument': conversion from 'float' to 'UC::int32', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(272,114): warning C4244: 'argument': conversion from 'float' to 'UC::int32', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(272,92): warning C4244: 'argument': conversion from 'float' to 'UC::int32', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(272,49): warning C4244: 'initializing': conversion from 'UC::int32' to 'float', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(272,22): warning C4244: 'initializing': conversion from 'UC::int32' to 'const float', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(320,195): warning C4244: 'argument': conversion from 'float' to 'UC::int32', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(320,189): warning C4244: 'argument': conversion from 'float' to 'UC::int32', possible loss of data
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\NetworkDriver.cpp(320,105): warning C4244: 'argument': conversion from 'float' to 'UC::int32', possible loss of data
+  NetworkObjectList.cpp
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\Includes\SDK\CppSDK\SDK\Basic.hpp(688,2): warning C4369: 'SDK::EObjectFlags':  enumerator value '2147483648' cannot be represented as 'int', value is '2147483648'
+  (compiling source file 'NetworkObjectList.cpp')
+  
+  Utils.cpp
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\Includes\SDK\CppSDK\SDK\Basic.hpp(688,2): warning C4369: 'SDK::EObjectFlags':  enumerator value '2147483648' cannot be represented as 'int', value is '2147483648'
+  (compiling source file 'Utils.cpp')
+  
+  dllmain.cpp
+C:\Users\alani\Desktop\Projects\Atlas\Atlas\Includes\SDK\CppSDK\SDK\Basic.hpp(688,2): warning C4369: 'SDK::EObjectFlags':  enumerator value '2147483648' cannot be represented as 'int', value is '2147483648'
+  (compiling source file 'dllmain.cpp')
+  
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+  122 of 1920 functions ( 6.4%) were compiled, the rest were copied from previous compilation.
+    2 functions were new in current compilation
+    40 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Atlas.vcxproj -> C:\Users\alani\Desktop\Projects\Atlas\x64\Release\Atlas.dll
